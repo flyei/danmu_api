@@ -162,7 +162,7 @@ function updateFilterUI() {
 
 window.setLogFilter = function(tag) {
     currentLogFilter = tag;
-    // 切换筛选仅调整已有日志行的显隐，不重建 DOM
+    // 切换筛选仅控制已有日志行的显隐，不重建 DOM
     applyLogFilter();
     const container = document.getElementById('log-container');
     container.scrollTop = container.scrollHeight;
@@ -248,7 +248,7 @@ async function clearLogs() {
 function highlightJSON(obj) {
     let json = JSON.stringify(obj, null, 2);
     // 转义HTML特殊字符
-    json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     
     // 高亮JSON语法
     return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {

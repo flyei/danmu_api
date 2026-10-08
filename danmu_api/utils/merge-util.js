@@ -2,7 +2,7 @@ import { globals } from '../configs/globals.js';
 import { log as baseLog } from './log-util.js';
 import { addAnime } from './cache-util.js';
 import { simplized } from '../utils/zh-util.js';
-import { normalizeSpaces, convertChineseNumber } from '../utils/common-util.js';
+import { stripNonTitleChars, convertChineseNumber } from '../utils/common-util.js';
 
 // ==============================================================================
 //  源合并处理工具 (merge-util.js)
@@ -473,7 +473,7 @@ function removeParentheses(text) {
  * @param {string} urlStr - 原始 URL 或 ID 字符串
  * @returns {string} 清洗后的单一 URL
  */
-function sanitizeUrl(urlStr) {
+export function sanitizeUrl(urlStr) {
     if (!urlStr) return '';
     let clean = String(urlStr).split(MERGE_DELIMITER)[0].trim();
     if (clean.startsWith('//')) return 'https:' + clean;
@@ -1819,10 +1819,10 @@ function getMatchingCustomRule(pAnime, sAnime) {
         }
         cleanAnime = cleanAnime.replace(RegexStore.Clean.MOVIE_KEYWORDS, '');
 
-        // 终极清洗：使用 common-util 的 normalizeSpaces 规范化所有标点与特殊符号
+        // 终极清洗：使用 common-util 的 stripNonTitleChars 规范化所有标点与特殊符号
         return {
-            target: normalizeSpaces(cleanAnime).replace(/\s+/g, ''),
-            rule: normalizeSpaces(cleanRule).replace(/\s+/g, '')
+            target: stripNonTitleChars(cleanAnime).replace(/\s+/g, ''),
+            rule: stripNonTitleChars(cleanRule).replace(/\s+/g, '')
         };
     };
 
